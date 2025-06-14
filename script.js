@@ -1,14 +1,10 @@
 Document.addEventListner('DOMcontentLoaded', function(){
-    // Select the registration form
     const form= document.getElementById('registration-form');
-
-    // Select the feedback division
     const feedbackDIV = document.getElementById('form-feedback');
 
-    // Prevent the form from submitting to the server
     form.addEventListener('submit', function (event) {
-
         event.preventDefault();
+
         const username = document.getElementById('username').value.trim;
         const email = document.getElementById('email').value.trim;
         const password = document.getElementById('password').value.trim;
@@ -20,6 +16,7 @@ Document.addEventListner('DOMcontentLoaded', function(){
         isvalid = false;
         message.push('username must be atleast 3 characters long');
     }
+    
     if (!email.includes('@') || !email.includes('.')) {
         isvalid = false;
         message.push('please enter a valid email address');
