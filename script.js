@@ -1,41 +1,63 @@
-Document.addEventListner('DOMcontentLoaded', function(){
-    const form= document.getElementById('registration-form');
-    const feedbackDIV = document.getElementById('form-feedback');
+document.addEventListener('DOMContentLoaded', function() {
+  
+    const form = document.getElementById('registration-form');
+    const feedbackDiv = document.getElementById('form-feedback');
 
-    form.addEventListener('submit', function (event) {
+    form.addEventListener('submit', function(event) {
+       
         event.preventDefault();
 
-        const username = document.getElementById('username').value.trim;
-        const email = document.getElementById('email').value.trim;
-        const password = document.getElementById('password').value.trim;
+        
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
 
-    let isvalid = true;
-    const message = [];
+        let isValid = true;
+        const messages = [];
 
-    if (username.length >3) {
-        isvalid = false;
-        message.push('username must be atleast 3 characters long');
-    }
-    
-    if (!email.includes('@') || !email.includes('.')) {
-        isvalid = false;
-        message.push('please enter a valid email address');
-    }
+        
+        if (username.length < 3) {
+            isValid = false;
+            messages.push('Username must be at least 3 characters long');
+        } else if (username.length > 20) {
+            isValid = false;
+            messages.push('Username cannot exceed 20 characters');
+        }
 
-    if (password.length >8) {
-        isvalid = false;
-        message.push('password must be atleast 8 charcters long');
-    }
+        
+        if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.')) {
+            isValid = false;
+            messages.push('Please enter a valid email address');
+        }
 
-    feedbackDIV.style.display = "block";
-    if (isvalid){
-        feedbackDIV.textContent= "Registration successful!";
-        feedbackDIV.style.color = "#28a745";
-    }else {
-        feedbackDIV.innerHTML = message.join('<br>');
-        feedbackDIV.style.color = "#dc3545";
-    }
+       
+        if (password.length < 8) {
+            isValid = false;
+            messages.push('Password must be at least 8 characters long');
+        } else if (!/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
+            isValid = false;
+            messages.push('Password must contain both letters and numbers');
+        }
 
+       
+        feedbackDiv.style.display = 'block';
+        
+        if (isValid) {
+        
+            feedbackDiv.textContent = 'Registration successful!';
+            feedbackDiv.className = 'success';
+            
+            
+            form.reset();
+            
 
+            setTimeout(() => {
+                feedbackDiv.style.display = 'none';
+            }, 3000);
+        } else {
+        
+            feedbackDiv.innerHTML = messages.join('<br>');
+            feedbackDiv.className = 'error';
+        }
     });
-}); 
+});
